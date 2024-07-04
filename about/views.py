@@ -4,9 +4,9 @@ from .models import About
 # Create your views here.
 
 
-def about(request, about):
+def about_me(request):
     """
-    Display the about page.
+    Render the About page.
 
     **Content**
 
@@ -14,8 +14,8 @@ def about(request, about):
 
     :template:`about/about.html`
     """
-
-    about = get_object_or_404(About, about=about)
+    
+    about = About.objects.all().order_by('-updated_on').first()
 
     return render(
         request,
