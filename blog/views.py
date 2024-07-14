@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, reverse
 from django.views import generic
+from django.views.generic import ListView
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from .forms import CommentForm
 
 # Create your views here.
@@ -94,4 +95,38 @@ def comment_delete(request, slug, comment_id):
         messages.add_message(request, messages.ERROR, 'You can only delete your own comments!')
 
     return HttpResponseRedirect(reverse('post_detail', args=[slug]))
+
+
+    # Category list view
+class CatListView(ListView):
+    """
+     Returns all published posts in :model:`blog.Category`
+    and displays them on a page.
+
+    **Context**
+
+    ``post``
+        An instance of :model:`blog.Post`.
+    ``category``
+        Group of published posts in :model:`blog.Category`
+    displayed on a page.
+    """
+    template_name = 'blog/category.html'
+    context_object_name = 'catlist'
+
+    def get_queryset(self):
+        content = {
+            'cat': self.kwargs['category'],
+            'posts': Post.objects.filter(category__name=self.kwargs[
+                'category']).filter(status=1)
+        }
+        return content
+
+
+def category_list(request):
+    category_list = Category.objects.exclude(name='other')
+    context = {
+        "category_list": category_list,
+    }
+    return context
     

@@ -6,6 +6,20 @@ from cloudinary.models import CloudinaryField
 STATUS = ((0, "Draft"), (1, "Published"))
 
 
+class Category(models.Model):
+    """
+    Model for Category
+    Stores a multiple blog post entries related to :model:`blog.Post`
+    and :model:`post.Category`
+    """
+    class Meta:
+        verbose_name_plural = 'Categories'
+    name = models.CharField(max_length=30, unique=True)
+
+    def __str__(self):
+        return self.name
+
+        
 class Post(models.Model):
     title = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -18,10 +32,14 @@ class Post(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
     excerpt = models.TextField(blank=True)
     updated_on = models.DateTimeField(auto_now=True)
+
     class Meta:
         ordering = ["-created_on"]
     def __str__(self):
         return f"{self.title} | written by {self.author}"
+
+    #def number_of_likes(self):
+        #return self.likes.count()
 
 
 class Comment(models.Model):

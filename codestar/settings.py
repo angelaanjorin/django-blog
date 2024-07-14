@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['8000-angelaanjori-djangoblog-l4c4r88tm2f.ws-eu115.gitpod.io',
+ALLOWED_HOSTS = ['8000-angelaanjori-djangoblog-81b2hlv5cnx.ws-eu115.gitpod.io',
                 '.herokuapp.com'
 ]
 
@@ -90,6 +90,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'blog.views.category_list',
             ],
         },
     },
